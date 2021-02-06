@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import Footer from './FooterComponent';
-import Directory from './DirectoryComponent';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import About from './AboutComponent';
+import Contact from './ContactComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
+import Directory from './DirectoryComponent';
+import Footer from './FooterComponent';
 import Header from './HeaderComponent'; 
 import Home from './HomeComponent';
-import Contact from './ContactComponent';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import { CAMPSITES } from '../shared/campsites';
 import { COMMENTS } from '../shared/comments';
 import { PARTNERS } from '../shared/partners';
 import { PROMOTIONS } from '../shared/promotions';
+
 
 class Main extends Component {
     constructor(props) {
@@ -22,10 +24,6 @@ class Main extends Component {
         };
     }
 
-   // onCampsiteSelect(campsiteId) {
-   //     this.setState({selectedCampsite: campsiteId});
-   // }
-
     render() {
 
         const HomePage = () => {
@@ -36,7 +34,7 @@ class Main extends Component {
                     partner={this.state.partners.filter(partner => partner.featured)[0]}
                 />
             );
-        };
+        }
 
         const CampsiteWithId = ({match}) => {
             return (
@@ -45,7 +43,7 @@ class Main extends Component {
                     comments={this.state.comments.filter(comment => comment.campsiteId === +match.params.campsiteId)}
                 />
             );
-        }; 
+        } 
 
         return (
             <div>
@@ -53,15 +51,15 @@ class Main extends Component {
                 <Switch>
                     <Route path='/home' component={HomePage} />
                     <Route exact path='/directory' render={() => <Directory campsites={this.state.campsites} />} />
-                    <Route exact path='/contactus' component={Contact} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
+                    <Route exact path='/aboutus' render={() => <About partners={this.state.partners} />} />
+                    <Route exact path='/contactus' component={Contact} />
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />
-                
             </div>
         );
-    };
+    }
 }
 
 export default Main;
